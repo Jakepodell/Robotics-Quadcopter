@@ -41,7 +41,7 @@
 #define ROLL_INPUT_MIN 450
 
 boolean heightStable = false;
-int dPitch, dRoll, dYaw, dHeightl;
+int dPitch, dRoll, dYaw, dHeight;
 int oldHeightState=1;
 
 // NOTE: the "LL" at the end of the constant is "LongLong" type
@@ -103,10 +103,22 @@ void loop()
   
   dPitch = getDPitch();
   dRoll = getDRoll();
- /* Serial.print("PITCH: ");
+  dHeight = getDHeight();
+  dYaw = getDYaw();
+ 
+  Serial.print("PITCH: ");
   Serial.print(dPitch);
   Serial.print(" | ROLL: ");
-  Serial.println(dRoll);*/
+  Serial.print(dRoll);
+  Serial.print("     HEIGHT: ");
+  Serial.print(dHeight);
+  Serial.print(" | YAW: ");
+  Serial.print(dYaw);
+  Serial.print("     STABLE: ");
+  if(heightStable==1)
+    Serial.println("YES");
+  else
+    Serial.println("No");
   
   int jButtonInput = digitalRead(JOYSTICK_BUTTON);
   
@@ -116,13 +128,12 @@ void loop()
   }
   oldHeightState = jButtonInput;
    
-  Serial.println(heightStable);
+  //Serial.println(heightStable);
   
- //if(analogRead(HEIGHT_INPUT)>800) digitalWrite(JOYSTICK_LED, HIGH);
- //if(analogRead(HEIGHT_INPUT)<450) digitalWrite(JOYSTICK_LED, LOW);
  digitalWrite(JOYSTICK_LED,heightStable);
  
- delay(250);
+ 
+ delay(50);
   
 
 }
@@ -138,6 +149,18 @@ int getDRoll(){
   int roll = analogRead(ROLL_INPUT);
   roll = map(roll,0,1023,0,100);
   return roll;
+}
+
+int getDHeight(){
+  int height = analogRead(HEIGHT_INPUT);
+  height = map(height,0,1023,0,100);
+  return height;
+}
+
+int getDYaw(){
+  int yaw = analogRead(YAW_INPUT);
+  yaw = map(yaw,0,1023,0,100);
+  return yaw;
 }
 
 
