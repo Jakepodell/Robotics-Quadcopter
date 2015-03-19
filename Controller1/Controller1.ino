@@ -90,7 +90,7 @@ void loop()
    else
    joystick[4]=0;*/
 
-  //Serial.print(radio.write(nums, sizeof(nums))); // The write() function requires the size of the thing being sent in bytes.  sizeof() plays nicely with arrays here.
+  //Serial.print(); // The write() function requires the size of the thing being sent in bytes.  sizeof() plays nicely with arrays here.
 
   /* Serial.print(joystick[1]);  
    Serial.print(" , ");
@@ -105,23 +105,23 @@ void loop()
   updateValues();
   printValues();
   updateHeightStable();
-
-
-
-
-
-
+  
   digitalWrite(JOYSTICK_LED,heightStable);
-
-
+  
+  values[1]=dPitch;
+  values[2]=dRoll;
+  values[3]=dHeight;
+  values[4]=dYaw;
+  values[5]=heightStable;
+  
+  radio.write(values, sizeof(values));
+  
   delay(50);
-
-
 }
 
 int getDPitch(){
   int pitch = analogRead(PITCH_INPUT);
-  if(pitch<180)pitch-=(180-pitch);
+  if(pitch<150)pitch-=(150-pitch);
   pitch = map(pitch,0, 1023,0,100);
   return pitch;
 }
