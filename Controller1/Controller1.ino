@@ -1,27 +1,3 @@
-/* 
- 
- Adapted from code found at:
- http://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo
- 
- - WHAT IT DOES: 
- Reads Analog values from a potentiometer on A0, 
- maps them to a value usable by an LED,
- and transmits them over a nRF24L01 Radio Link to another transceiver.
- 
- - CONNECTIONS: nRF24L01 Modules 
- 1 - GND
- 2 - VCC 3.3V !!! NOT 5V
- 3 - CE to Arduino pin 9
- 4 - CSN to Arduino pin 10
- 5 - SCK to Arduino pin 13
- 6 - MOSI to Arduino pin 11
- 7 - MISO to Arduino pin 12
- 8 - UNUSED
- - 
- 
- */
-
-/*-----( Import needed libraries )-----*/
 #include <SPI.h>
 #include <nRF24L01.h>
 #include <RF24.h>
@@ -43,64 +19,25 @@
 boolean heightStable = false;
 int dPitch, dRoll, dYaw, dHeight;
 int oldHeightState=1;
-
 // NOTE: the "LL" at the end of the constant is "LongLong" type
 const uint64_t pipe = 0xE8E8F0F0E1LL; // Define the transmit pipe
-
-
-/*-----( Declare objects )-----*/
 RF24 radio(CE_PIN, CSN_PIN); // Create a Radio
-
-
-/*-----( Declare Variables )-----*/
-
-// Arrays kill two birds with one stone here.
-// These kinds of variables requires POINTERS.  
-// Why we need a pointer in this situation is beyond me right now, but apparently a workaround is using an array. 
-// Fine by me.  Using an array here works nicely.  One variable, two values.
 int values[6];
 
 
-void setup()   
-{
+void setup(){
+  
   Serial.begin(9600);
   radio.begin(); // Fire up the raido
   radio.openWritingPipe(pipe); // 'pipe' is the LongLong that was itialized above.
   pinMode(JOYSTICK_BUTTON, INPUT_PULLUP);
   pinMode(JOYSTICK_LED, OUTPUT);
   values[0] = 5253;
-
+  
 }
 
 
-void loop()   
-{
-  /*joystick[0] = 166;
-   joystick[1] = analogRead(JOYSTICK_Y);
-   joystick[2] = map(analogRead(JOYSTICK_X),80,1023,0,1023);
-   if(joystick[2]<0)joystick[2]=0;
-   
-   if(digitalRead(8)>0)
-   joystick[3]=1;
-   else
-   joystick[3]=0;
-   
-   if(digitalRead(7)>0)
-   joystick[4]=1;
-   else
-   joystick[4]=0;*/
-
-  //Serial.print(); // The write() function requires the size of the thing being sent in bytes.  sizeof() plays nicely with arrays here.
-
-  /* Serial.print(joystick[1]);  
-   Serial.print(" , ");
-   Serial.println(joystick[2]);  */
-  /* if(digitalRead(JOYSTICK_BUTTON)==1){
-   heightStable=true;
-   Serial.println("Pressed");*/
-
-
-  //Serial.println(digitalRead(JOYSTICK_BUTTON));
+void loop(){
 
   updateValues();
   printValues();
@@ -116,8 +53,10 @@ void loop()
   
   radio.write(values, sizeof(values));
   
-  delay(50);
+  delay(5);
+  
 }
+
 
 int getDPitch(){
   int pitch = analogRead(PITCH_INPUT);
@@ -145,7 +84,6 @@ int getDYaw(){
 }
 
 void printValues(){
-
   Serial.print("PITCH: ");
   Serial.print(dPitch);
   Serial.print(" | ROLL: ");
@@ -159,27 +97,20 @@ void printValues(){
     Serial.println("YES");
   else
     Serial.println("No");
-
 }
 
 void updateValues(){
-
   dPitch = getDPitch();
   dRoll = getDRoll();
   dHeight = getDHeight();
   dYaw = getDYaw();
-
 }
 
 void updateHeightStable(){
-
   int jButtonInput = digitalRead(JOYSTICK_BUTTON);
-
   if(oldHeightState!=jButtonInput && jButtonInput==0)
     heightStable=!heightStable;
-
   oldHeightState = jButtonInput;
-
 }
 
 
