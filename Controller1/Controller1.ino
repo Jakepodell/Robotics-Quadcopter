@@ -38,6 +38,7 @@ void setup(){
 
 
 void loop(){
+  
 
   updateValues();
   printValues();
@@ -52,6 +53,7 @@ void loop(){
   values[5]=heightStable;
   
   radio.write(values, sizeof(values));
+
   
   delay(5);
   
@@ -60,7 +62,7 @@ void loop(){
 
 int getDPitch(){
   int pitch = analogRead(PITCH_INPUT);
-  if(pitch<150)pitch-=(150-pitch);
+  //if(pitch<150)pitch-=(150-pitch);
   pitch = map(pitch,0, 1023,0,100);
   return pitch;
 }
@@ -85,7 +87,7 @@ int getDYaw(){
 
 void printValues(){
   Serial.print("PITCH: ");
-  Serial.print(dPitch);
+ /* Serial.print(dPitch);
   Serial.print(" | ROLL: ");
   Serial.print(dRoll);
   Serial.print("     HEIGHT: ");
@@ -96,7 +98,7 @@ void printValues(){
   if(heightStable==1)
     Serial.println("YES");
   else
-    Serial.println("No");
+    Serial.println("No");*/
 }
 
 void updateValues(){
