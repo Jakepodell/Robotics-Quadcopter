@@ -1,11 +1,9 @@
 #The Controller
-##This controller was developed by Jake Podell under the supervision of Mr. Slater. It serves as a multipurpose radio controller for any project. Applications include:
+###This controller was developed by Jake Podell under the supervision of Mr. Slater. It serves as a multipurpose radio controller for any project. Applications include:
 
 + Game Control
 + Remote Control Car
 + Flying Machine Control
-
-## 
 
 The controller comes loaded with the "Controller_Send" file uploaded to it. This file was designed to be modified and re-uploaded. HAVE FUN WITH IT.
 
