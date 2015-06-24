@@ -87,7 +87,7 @@ int getDYaw(){
 
 void printValues(){
   Serial.print("PITCH: ");
- /* Serial.print(dPitch);
+  Serial.print(dPitch);
   Serial.print(" | ROLL: ");
   Serial.print(dRoll);
   Serial.print("     HEIGHT: ");
@@ -98,7 +98,7 @@ void printValues(){
   if(heightStable==1)
     Serial.println("YES");
   else
-    Serial.println("No");*/
+    Serial.println("No");
 }
 
 void updateValues(){
@@ -114,7 +114,6 @@ void updateHeightStable(){
     heightStable=!heightStable;
   oldHeightState = jButtonInput;
 }
-
 
 
 
